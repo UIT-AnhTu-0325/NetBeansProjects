@@ -1,8 +1,8 @@
-E:\Lap trinh mang\btlhoclai\qltt-server\src\main\java\com\mycompany\qltt\server\QlttServer.java
-E:\Lap trinh mang\btlhoclai\qltt-server\src\main\java\server\DAO\CategoryDAO.java
-E:\Lap trinh mang\btlhoclai\qltt-server\src\main\java\server\ServerThread.java
-E:\Lap trinh mang\btlhoclai\qltt-server\src\main\java\server\Main.java
-E:\Lap trinh mang\btlhoclai\qltt-server\src\main\java\model\Category.java
-E:\Lap trinh mang\btlhoclai\qltt-server\src\main\java\server\Controller.java
-E:\Lap trinh mang\btlhoclai\qltt-server\src\main\java\model\News.java
-E:\Lap trinh mang\btlhoclai\qltt-server\src\main\java\server\DAO\NewsDAO.java
+C:\Users\ADMIN\Documents\NetBeansProjects\qltt-server\src\main\java\server\ServerThread.java
+C:\Users\ADMIN\Documents\NetBeansProjects\qltt-server\src\main\java\com\mycompany\qltt\server\QlttServer.java
+C:\Users\ADMIN\Documents\NetBeansProjects\qltt-server\src\main\java\server\Main.java
+C:\Users\ADMIN\Documents\NetBeansProjects\qltt-server\src\main\java\server\DAO\SubjectDAO.java
+C:\Users\ADMIN\Documents\NetBeansProjects\qltt-server\src\main\java\model\Subject.java
+C:\Users\ADMIN\Documents\NetBeansProjects\qltt-server\src\main\java\server\DAO\StudentDAO.java
+C:\Users\ADMIN\Documents\NetBeansProjects\qltt-server\src\main\java\server\Controller.java
+C:\Users\ADMIN\Documents\NetBeansProjects\qltt-server\src\main\java\model\Student.java
