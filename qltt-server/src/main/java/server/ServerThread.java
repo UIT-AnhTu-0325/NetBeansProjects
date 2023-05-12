@@ -10,10 +10,10 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import server.DAO.CategoryDAO;
-import model.Category;
-import model.News;
-import server.DAO.NewsDAO;
+import server.DAO.SubjectDAO;
+import model.Subject;
+import model.Student;
+import server.DAO.StudentDAO;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -49,48 +49,48 @@ public class ServerThread implements Runnable {
                 String message = dis.readUTF();
                 System.out.println("Request: " + message);
                 
-                if (message.contains("categories/store")) {
+                if (message.contains("subjects/store")) {
                     
-                    Category category = (Category) ois.readObject();
-                    saveCategory(category);
-                } else if (message.contains("categories/update")) {
+                    Subject subject = (Subject) ois.readObject();
+                    saveSubject(subject);
+                } else if (message.contains("subjects/update")) {
                     
-                    Category category = (Category) ois.readObject();
-                    updateCategory(category);
-                } else if (message.contains("categories/delete")) {
+                    Subject subject = (Subject) ois.readObject();
+                    updateSubject(subject);
+                } else if (message.contains("subjects/delete")) {
                     
-                    String ML = dis.readUTF();
-                    int MaLoai = Integer.parseInt(ML);
-                    deleteCategory(MaLoai);
-                } else if (message.contains("categories/")) {
+                    String MMH = dis.readUTF();
+                    int MaMH = Integer.parseInt(MMH);
+                    deleteSubject(MaMH);
+                } else if (message.contains("subjects/")) {
                     
                     String[] strs = message.split("/");
-                    String ML = strs.length > 1 ? strs[1] : "";
-                    int MaLoai = Integer.parseInt(ML);
-                    getCategory(MaLoai);
-                } else if (message.contains("categories")) {
+                    String MMH = strs.length > 1 ? strs[1] : "";
+                    int MaMH = Integer.parseInt(MMH);
+                    getSubject(MaMH);
+                } else if (message.contains("subjects")) {
                     
 //                    String[] strs = message.split("key=");
 //                    String key = strs.length > 1 ? strs[1] : "";
-                    getListCategories();
+                    getListSubjects();
                 } 
                 else 
-                if (message.contains("newss/store")) {
-                    News news = (News) ois.readObject();
-                    saveNews(news);
-                } else if (message.contains("newss/update")) {
-                    News news = (News) ois.readObject();
-                    updateNews(news);
-                } else if (message.contains("newss/delete")) {
-                    String MTT = dis.readUTF();
-                    int MaTinTuc = Integer.parseInt(MTT);
-                    deleteNews(MaTinTuc);
-                } else if (message.contains("newss/")) {
+                if (message.contains("students/store")) {
+                    Student student = (Student) ois.readObject();
+                    saveStudent(student);
+                } else if (message.contains("students/update")) {
+                    Student student = (Student) ois.readObject();
+                    updateStudent(student);
+                } else if (message.contains("students/delete")) {
+                    String MSV = dis.readUTF();
+                    int MaSV = Integer.parseInt(MSV);
+                    deleteStudent(MaSV);
+                } else if (message.contains("students/")) {
                     String[] strs = message.split("/");
-                    String MTT = strs.length > 1 ? strs[1] : "";
-                    int MaTinTuc = Integer.parseInt(MTT);
-                    getNews(MaTinTuc);
-                } else if (message.contains("newss")) {
+                    String MSV = strs.length > 1 ? strs[1] : "";
+                    int MaSV = Integer.parseInt(MSV);
+                    getStudent(MaSV);
+                } else if (message.contains("students")) {
 //                    String key = getStringBetween(message, "key=", "&");
 //                    String TenLoai = getStringBetween(message, "TenLoai=", "&");
 //                    int numberPeople;
@@ -100,7 +100,7 @@ public class ServerThread implements Runnable {
 //                        System.err.println(e2);
 //                        numberPeople = 0;
 //                    }
-                    getListNews();
+                    getListStudent();
                 }
                 
             } catch (Exception e) {
@@ -123,26 +123,21 @@ public class ServerThread implements Runnable {
     }
     
     
-    private void getListCategories() throws IOException {
-        List<Category> list = null;
-        try {
-            list = CategoryDAO.getInstance(Controller.getInstance().getDBConnection()).getAllCategories();
-        } catch (SQLException ex) {
-            Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("111 " + ex);
-        }
-        Category[] categories = null;
+    private void getListSubjects() throws IOException {
+        List<Subject> list = null;
+        list = SubjectDAO.getInstance(Controller.getInstance().getDBConnection()).getAllSubjects();
+        Subject[] subjects = null;
         if (list != null) {
-            categories = list.toArray(new Category[list.size()]);
+            subjects = list.toArray(new Subject[list.size()]);
         }
-        oos.writeObject(categories);
+        oos.writeObject(subjects);
         oos.flush();
     }
     
-    private void getCategory(int MaLoai) throws IOException {
+    private void getSubject(int MaMH) throws IOException {
         try {
-            Category category = CategoryDAO.getInstance(Controller.getInstance().getDBConnection()).getCategoryById(MaLoai);
-            oos.writeObject(category);
+            Subject subject = SubjectDAO.getInstance(Controller.getInstance().getDBConnection()).getSubjectById(MaMH);
+            oos.writeObject(subject);
             oos.flush();
         } catch (Exception e) {
             System.err.println(e);
@@ -151,9 +146,9 @@ public class ServerThread implements Runnable {
         }
     }
     
-    private void saveCategory(Category category) throws IOException, SQLException {
+    private void saveSubject(Subject subject) throws IOException, SQLException {
         try {
-            CategoryDAO.getInstance(Controller.getInstance().getDBConnection()).addCategory(category);
+            SubjectDAO.getInstance(Controller.getInstance().getDBConnection()).addSubject(subject);
             dos.writeUTF("success!");
             dos.flush();
         } catch (IOException ex) {
@@ -163,9 +158,9 @@ public class ServerThread implements Runnable {
         }
     }
     
-    private void updateCategory(Category category) throws IOException, SQLException {
+    private void updateSubject(Subject subject) throws IOException, SQLException {
         try {
-            CategoryDAO.getInstance(Controller.getInstance().getDBConnection()).updateCategory(category);
+            SubjectDAO.getInstance(Controller.getInstance().getDBConnection()).updateSubject(subject);
             dos.writeUTF("success!");
             dos.flush();
         } catch (IOException ex) {
@@ -175,9 +170,9 @@ public class ServerThread implements Runnable {
         }
     }
     
-    private void deleteCategory(int MaLoai) throws IOException, SQLException {
+    private void deleteSubject(int MaMH) throws IOException, SQLException {
         try {
-            CategoryDAO.getInstance(Controller.getInstance().getDBConnection()).deleteCategory(MaLoai);
+            SubjectDAO.getInstance(Controller.getInstance().getDBConnection()).deleteSubject(MaMH);
             dos.writeUTF("success!");
             dos.flush();
         } catch (IOException ex) {
@@ -188,11 +183,11 @@ public class ServerThread implements Runnable {
     }
     
     
-    private void getListNews() throws IOException {
+    private void getListStudent() throws IOException {
         try {
-            List<News> list = NewsDAO.getInstance(Controller.getInstance().getDBConnection()).getAllNews();
-            News[] newss = list.toArray(new News[list.size()]);
-            oos.writeObject(newss);
+            List<Student> list = StudentDAO.getInstance(Controller.getInstance().getDBConnection()).getAllStudent();
+            Student[] students = list.toArray(new Student[list.size()]);
+            oos.writeObject(students);
             oos.flush();
         } catch (Exception e) {
             System.err.println(e);
@@ -201,10 +196,10 @@ public class ServerThread implements Runnable {
         }
     }
 
-    private void getNews(int MaTinTuc) throws IOException {
+    private void getStudent(int MaSV) throws IOException {
         try {
-            News news = NewsDAO.getInstance(Controller.getInstance().getDBConnection()).getNewsById(MaTinTuc);
-            oos.writeObject(news);
+            Student student = StudentDAO.getInstance(Controller.getInstance().getDBConnection()).getStudentById(MaSV);
+            oos.writeObject(student);
             oos.flush();
         } catch (Exception e) {
             System.err.println(e);
@@ -213,9 +208,9 @@ public class ServerThread implements Runnable {
         }
     }
 
-    private void saveNews(News news) throws IOException, SQLException {
+    private void saveStudent(Student student) throws IOException, SQLException {
         try {
-            NewsDAO.getInstance(Controller.getInstance().getDBConnection()).addNews(news);
+            StudentDAO.getInstance(Controller.getInstance().getDBConnection()).addStudent(student);
             dos.writeUTF("success!");
             dos.flush();
         } catch (IOException ex) {
@@ -225,9 +220,9 @@ public class ServerThread implements Runnable {
         }
     }
 
-    private void updateNews(News news) throws IOException, SQLException {
+    private void updateStudent(Student student) throws IOException, SQLException {
         try {
-            NewsDAO.getInstance(Controller.getInstance().getDBConnection()).updateNews(news);
+            StudentDAO.getInstance(Controller.getInstance().getDBConnection()).updateStudent(student);
             dos.writeUTF("success!");
             dos.flush();
         } catch (IOException ex) {
@@ -237,9 +232,9 @@ public class ServerThread implements Runnable {
         }
     }
 
-    private void deleteNews(int MaTinTuc) throws IOException, SQLException {
+    private void deleteStudent(int MaSV) throws IOException, SQLException {
         try {
-            NewsDAO.getInstance(Controller.getInstance().getDBConnection()).deleteNews(MaTinTuc);
+            StudentDAO.getInstance(Controller.getInstance().getDBConnection()).deleteStudent(MaSV);
             dos.writeUTF("success!");
             dos.flush();
         } catch (IOException ex) {

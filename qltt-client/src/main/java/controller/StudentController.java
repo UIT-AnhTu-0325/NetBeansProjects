@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.qltt.client;
+package controller;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.News;
+import model.Student;
 import com.google.gson.Gson;
 import spark.Request;
 import spark.Response;
@@ -23,12 +23,12 @@ import spark.Response;
  *
  * @author ADMIN
  */
-//public class NewsController {
+//public class StudentController {
 //    
 //}
 
-public class NewsController {
-    private static NewsController instance;
+public class StudentController {
+    private static StudentController instance;
 
     private Socket client;
     private DataInputStream dis;
@@ -39,14 +39,14 @@ public class NewsController {
     private final String IP = "localhost";
     private final int PORT_NUMBER = 7890;
 
-    public static NewsController getInstance() throws IOException {
+    public static StudentController getInstance() throws IOException {
         if (instance == null) {
-            instance = new NewsController();
+            instance = new StudentController();
         }
         return instance;
     }
 
-    public NewsController() throws IOException {
+    public StudentController() throws IOException {
         client = new Socket(IP, PORT_NUMBER);
         System.out.println(client + " client " + client.getLocalPort());
         dis = new DataInputStream(client.getInputStream());
@@ -56,22 +56,22 @@ public class NewsController {
     }
 
     public static String getList(Request req, Response res) throws IOException {
-        NewsController rc = getInstance();
+        StudentController rc = getInstance();
 //        String key = req.queryParamOrDefault("key", "");
 //        String floorId = req.queryParamOrDefault("floor_id", "");
 //        String numberPeople = req.queryParamOrDefault("numberPeople", "");
-        rc.dos.writeUTF("newss?");
+        rc.dos.writeUTF("students?");
         rc.dos.flush();
 
-        News[] newss = null;
+        Student[] students = null;
         try {
-            newss = (News[]) rc.ois.readObject();
+            students = (Student[]) rc.ois.readObject();
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(NewsController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudentController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         Map<String, Object> response = new HashMap<>();
-        response.put("newss", newss);
+        response.put("students", students);
         Gson gson = new Gson();
         String json = gson.toJson(response);
 
@@ -82,21 +82,21 @@ public class NewsController {
         return json;
     }
 
-    public static String getNews(Request req, Response res) throws IOException {
-        NewsController rc = getInstance();
-        String MaTinTuc = req.params("news");
-        rc.dos.writeUTF("newss/" + MaTinTuc);
+    public static String getStudent(Request req, Response res) throws IOException {
+        StudentController rc = getInstance();
+        String MaSV = req.params("student");
+        rc.dos.writeUTF("students/" + MaSV);
         rc.dos.flush();
 
-        News news = null;
+        Student student = null;
         try {
-            news = (News) rc.ois.readObject();
+            student = (Student) rc.ois.readObject();
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(NewsController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudentController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         Map<String, Object> response = new HashMap<>();
-        response.put("news", news);
+        response.put("student", student);
         Gson gson = new Gson();
         String json = gson.toJson(response);
 
@@ -107,14 +107,14 @@ public class NewsController {
         return json;
     }
 
-    public static String saveNews(Request req, Response res) throws IOException {
-        NewsController rc = getInstance();
+    public static String saveStudent(Request req, Response res) throws IOException {
+        StudentController rc = getInstance();
         String body = req.body();
-        News news = new Gson().fromJson(body, News.class);
+        Student student = new Gson().fromJson(body, Student.class);
 
-        rc.dos.writeUTF("newss/store");
+        rc.dos.writeUTF("students/store");
         rc.dos.flush();
-        rc.oos.writeObject(news);
+        rc.oos.writeObject(student);
         rc.oos.flush();
 
         String status = (String) rc.dis.readUTF();
@@ -131,17 +131,17 @@ public class NewsController {
         return json;
     }
  
-    public static String updateNews(spark.Request req, spark.Response res) throws IOException {
-        NewsController fc = getInstance();
-        String MTT = req.params("news");
-        int MaTinTuc = Integer.parseInt(MTT);
+    public static String updateStudent(spark.Request req, spark.Response res) throws IOException {
+        StudentController fc = getInstance();
+        String MSV = req.params("student");
+        int MaSV = Integer.parseInt(MSV);
         String body = req.body();
-        News news = new Gson().fromJson(body, News.class);
-        news.setMaTinTuc(MaTinTuc);
+        Student student = new Gson().fromJson(body, Student.class);
+        student.setMaSV(MaSV);
 
-        fc.dos.writeUTF("newss/update");
+        fc.dos.writeUTF("students/update");
         fc.dos.flush();
-        fc.oos.writeObject(news);
+        fc.oos.writeObject(student);
         fc.oos.flush();
 
         String status = (String) fc.dis.readUTF();
@@ -158,13 +158,13 @@ public class NewsController {
         return json;
     }
 
-    public static String deleteNews(spark.Request req, spark.Response res) throws IOException {
-        NewsController fc = getInstance();
-        String MaTinTuc = req.params("news");
+    public static String deleteStudent(spark.Request req, spark.Response res) throws IOException {
+        StudentController fc = getInstance();
+        String MaSV = req.params("student");
 
-        fc.dos.writeUTF("newss/delete");
+        fc.dos.writeUTF("students/delete");
         fc.dos.flush();
-        fc.dos.writeUTF(MaTinTuc);
+        fc.dos.writeUTF(MaSV);
         fc.dos.flush();
 
         String status = (String) fc.dis.readUTF();
