@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.qltt.client;
+package controller;
 
 /**
  *
@@ -49,17 +49,17 @@ public class Main {
             return gson.toJson(obj);
         });
 
-        get("/categories", CategoryController::getList);
-        get("/categories/:category", CategoryController::getCategory);
-        post("/categories/store", CategoryController::saveCategory);
-        put("/categories/:category/update", CategoryController::updateCategory);
-        delete("/categories/:category/delete", CategoryController::deleteCategory);
+        get("/subjects", SubjectController::getList);
+        get("/subjects/:subject", SubjectController::getSubject);
+        post("/subjects/store", SubjectController::saveSubject);
+        put("/subjects/:subject/update", SubjectController::updateSubject);
+        delete("/subjects/:subject/delete", SubjectController::deleteSubject);
         
-        get("/newss", NewsController::getList);
-        get("/newss/:news", NewsController::getNews);
-        post("/newss/store", NewsController::saveNews);
-        put("/newss/:news/update", NewsController::updateNews);
-        delete("/newss/:news/delete", NewsController::deleteNews);
+        get("/students", StudentController::getList);
+        get("/students/:student", StudentController::getStudent);
+        post("/students/store", StudentController::saveStudent);
+        put("/students/:student/update", StudentController::updateStudent);
+        delete("/students/:student/delete", StudentController::deleteStudent);
     }
 }
 

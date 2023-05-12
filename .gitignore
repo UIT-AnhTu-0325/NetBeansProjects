@@ -21,3 +21,5 @@ qltt-client/target/maven-status/maven-compiler-plugin/compile/default-compile/in
 qltt-client/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
 qltt-client/target/classes/com/mycompany/qltt/client/NewsController.class
 qltt-client/target/classes/com/mycompany/qltt/client/CategoryController.class
+/qltt-server/target/
+/qltt-client/target/

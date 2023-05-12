@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.qltt.client;
+package controller;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.Category;
+import model.Subject;
 import com.google.gson.Gson;
 import spark.Request;
 import spark.Response;
@@ -23,12 +23,12 @@ import spark.Response;
  *
  * @author ADMIN
  */
-//public class CategoryController {
+//public class SubjectController {
 //    
 //}
 
-public class CategoryController {
-    private static CategoryController instance;
+public class SubjectController {
+    private static SubjectController instance;
     
     private final Socket client;
     private final DataInputStream dis; //nhận 1 chuỗi
@@ -40,14 +40,14 @@ public class CategoryController {
     private final int PORT_NUMBER = 7890; //port server
 
     
-    public static CategoryController getInstance() throws IOException {
+    public static SubjectController getInstance() throws IOException {
         if (instance == null) {
-            instance = new CategoryController();
+            instance = new SubjectController();
         }
         return instance;
     }
     
-    public CategoryController() throws IOException {
+    public SubjectController() throws IOException {
         client = new Socket(IP, PORT_NUMBER); //khởi tạo kết nối với client
         System.out.println(client + " client " + client.getLocalPort());
         dis = new DataInputStream(client.getInputStream()); //luồng nhận của client
@@ -57,20 +57,20 @@ public class CategoryController {
     }
     
     public static String getList(spark.Request req, spark.Response res) throws IOException {
-        CategoryController fc = getInstance();
+        SubjectController fc = getInstance();
 //        String key = req.queryParamOrDefault("key", "");
-        fc.dos.writeUTF("categories" );
+        fc.dos.writeUTF("subjects" );
         fc.dos.flush();
         
-        Category[] categories = null;
+        Subject[] subjects = null;
         try {
-            categories = (Category[]) fc.ois.readObject();
+            subjects = (Subject[]) fc.ois.readObject();
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(CategoryController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SubjectController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         Map<String, Object> response = new HashMap<>();
-        response.put("categories", categories);
+        response.put("subjects", subjects);
         Gson gson = new Gson();
         String json = gson.toJson(response);
 
@@ -81,21 +81,21 @@ public class CategoryController {
         return json;
     }
     
-    public static String getCategory(spark.Request req, spark.Response res) throws IOException {
-        CategoryController fc = getInstance();
-        String MaLoai = req.params("category");
-        fc.dos.writeUTF("categories/" + MaLoai);
+    public static String getSubject(spark.Request req, spark.Response res) throws IOException {
+        SubjectController fc = getInstance();
+        String MaMH = req.params("subject");
+        fc.dos.writeUTF("subjects/" + MaMH);
         fc.dos.flush();
         
-        Category category = null;
+        Subject subject = null;
         try {
-            category = (Category) fc.ois.readObject();
+            subject = (Subject) fc.ois.readObject();
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(CategoryController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SubjectController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         Map<String, Object> response = new HashMap<>();
-        response.put("category", category);
+        response.put("subject", subject);
         Gson gson = new Gson();
         String json = gson.toJson(response);
 
@@ -106,14 +106,14 @@ public class CategoryController {
         return json;
     }
     
-    public static String saveCategory(spark.Request req, spark.Response res) throws IOException {
-        CategoryController fc = getInstance();
+    public static String saveSubject(spark.Request req, spark.Response res) throws IOException {
+        SubjectController fc = getInstance();
         String body = req.body();
-        Category category = new Gson().fromJson(body, Category.class);
+        Subject subject = new Gson().fromJson(body, Subject.class);
         
-        fc.dos.writeUTF("categories/store");
+        fc.dos.writeUTF("subjects/store");
         fc.dos.flush();
-        fc.oos.writeObject(category);
+        fc.oos.writeObject(subject);
         fc.oos.flush();
         
         String status = (String) fc.dis.readUTF();
@@ -130,17 +130,17 @@ public class CategoryController {
         return json;
     }
     
-    public static String updateCategory(spark.Request req, spark.Response res) throws IOException {
-        CategoryController fc = getInstance();
-        String ML = req.params("category");
-        int MaLoai = Integer.parseInt(ML);
+    public static String updateSubject(spark.Request req, spark.Response res) throws IOException {
+        SubjectController fc = getInstance();
+        String MMH = req.params("subject");
+        int MaMH = Integer.parseInt(MMH);
         String body = req.body();
-        Category category = new Gson().fromJson(body, Category.class);
-        category.setMaLoai(MaLoai);
+        Subject subject = new Gson().fromJson(body, Subject.class);
+        subject.setMaMH(MaMH);
         
-        fc.dos.writeUTF("categories/update");
+        fc.dos.writeUTF("subjects/update");
         fc.dos.flush();
-        fc.oos.writeObject(category);
+        fc.oos.writeObject(subject);
         fc.oos.flush();
         
         String status = (String) fc.dis.readUTF();
@@ -157,13 +157,13 @@ public class CategoryController {
         return json;
     }
     
-    public static String deleteCategory(spark.Request req, spark.Response res) throws IOException {
-        CategoryController fc = getInstance();
-        String MaLoai = req.params("category");
+    public static String deleteSubject(spark.Request req, spark.Response res) throws IOException {
+        SubjectController fc = getInstance();
+        String MaMH = req.params("subject");
         
-        fc.dos.writeUTF("categories/delete");
+        fc.dos.writeUTF("subjects/delete");
         fc.dos.flush();
-        fc.dos.writeUTF(MaLoai);
+        fc.dos.writeUTF(MaMH);
         fc.dos.flush();
         
         String status = (String) fc.dis.readUTF();
