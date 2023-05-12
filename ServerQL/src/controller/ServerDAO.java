@@ -2,6 +2,7 @@
 package controller;
 
 import java.sql.*;
+import model.Student;
 
 
 
@@ -30,5 +31,22 @@ public class ServerDAO {
             System.err.println("Could not connect to database: " + e.getMessage());
         }
         System.out.println("Database connected");
+    }
+    
+    public boolean addStudent(Student s){
+        String sql = "INSERT INTO tblstudent(id, name, dob, year, address) VALUES(?,?,?,?,?)";
+        try {
+            PreparedStatement ps = dbConnection.prepareStatement(sql);
+            ps.setInt(1, s.getId());
+            ps.setString(2, s.getName());
+            ps.setDate(3, new Date(s.getDob().getTime()));
+            ps.setInt(4, s.getYear());
+            ps.setString(5, s.getAddress());
+            ps.executeUpdate();
+            return true; // thanh cong!
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

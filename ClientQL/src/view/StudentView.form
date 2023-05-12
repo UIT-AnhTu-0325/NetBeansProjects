@@ -35,6 +35,8 @@
                           <Component id="txtName" min="-2" max="-2" attributes="0"/>
                           <Component id="txtID" min="-2" max="-2" attributes="0"/>
                           <Component id="txtAddress" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtYear" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtDOB" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -51,7 +53,11 @@
               <Component id="txtName" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="txtAddress" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="132" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="txtYear" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="txtDOB" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="76" max="32767" attributes="0"/>
               <Component id="btnAdd" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="167" max="-2" attributes="0"/>
           </Group>
@@ -66,9 +72,6 @@
       <AccessibilityProperties>
         <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Add"/>
       </AccessibilityProperties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtID">
       <Properties>
@@ -83,6 +86,16 @@
     <Component class="javax.swing.JTextField" name="txtAddress">
       <Properties>
         <Property name="text" type="java.lang.String" value="Address"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtYear">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Year"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtDOB">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="DOB"/>
       </Properties>
     </Component>
   </SubComponents>

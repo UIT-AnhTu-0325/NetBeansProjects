@@ -10,6 +10,8 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import model.Student;
+import view.ServerView;
 //import model.Student;
 //import view.ServerView;
 
@@ -34,7 +36,7 @@ public class ServerCtr {
             try {
                 Socket s = myServer.accept();
                 list.add(s);
-//                execute(s);
+                execute(s);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -51,7 +53,22 @@ public class ServerCtr {
         }
     }
     
-   
+    public void execute(Socket s){
+        try {
+            Student ss = receiveStudent(s); 
+            if(dao.addStudent(ss)){
+                sendResult("ok");
+                new ServerView().showMessage("Success!");
+            } else{
+                sendResult("failed");
+                new ServerView().showMessage("Failed!");
+            }
+        } catch (Exception e) {
+            sendResult("ok");
+            new ServerView().showMessage("Success!");
+            e.printStackTrace();
+        }
+    }
     
     public void openSocket(){
         try {
@@ -61,6 +78,15 @@ public class ServerCtr {
         }
     }
     
-    
+    public Student receiveStudent(Socket s){
+        Student ss= null;
+        try {
+            ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
+            ss = (Student)ois.readObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ss;
+    }
     
 }

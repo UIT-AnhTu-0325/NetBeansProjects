@@ -4,8 +4,11 @@
  */
 package view;
 
+import controller.ClientCtr;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
 import model.Student;
 
 /**
@@ -19,6 +22,8 @@ public class StudentView extends javax.swing.JFrame implements ActionListener{
      */
     public StudentView() {
         initComponents();
+        setLocationRelativeTo(null);
+        btnAdd.addActionListener(this);
     }
 
     /**
@@ -34,21 +39,22 @@ public class StudentView extends javax.swing.JFrame implements ActionListener{
         txtID = new javax.swing.JTextField();
         txtName = new javax.swing.JTextField();
         txtAddress = new javax.swing.JTextField();
+        txtYear = new javax.swing.JTextField();
+        txtDOB = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btnAdd.setText("Add");
-        btnAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddActionPerformed(evt);
-            }
-        });
 
         txtID.setText("Id");
 
         txtName.setText("Name");
 
         txtAddress.setText("Address");
+
+        txtYear.setText("Year");
+
+        txtDOB.setText("DOB");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -64,7 +70,9 @@ public class StudentView extends javax.swing.JFrame implements ActionListener{
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDOB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(296, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -76,7 +84,11 @@ public class StudentView extends javax.swing.JFrame implements ActionListener{
                 .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtDOB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
                 .addComponent(btnAdd)
                 .addGap(167, 167, 167))
         );
@@ -85,10 +97,6 @@ public class StudentView extends javax.swing.JFrame implements ActionListener{
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnAddActionPerformed
 
     /**
      * @param args the command line arguments
@@ -129,8 +137,10 @@ public class StudentView extends javax.swing.JFrame implements ActionListener{
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JTextField txtAddress;
+    private javax.swing.JTextField txtDOB;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtYear;
     // End of variables declaration//GEN-END:variables
     
     @Override
@@ -149,6 +159,7 @@ public class StudentView extends javax.swing.JFrame implements ActionListener{
             s.setYear(Integer.parseInt(txtYear.getText()));
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             s.setDob(sdf.parse(txtDOB.getText()));
+            JOptionPane.showMessageDialog(rootPane, "Start send socket");
             ClientCtr ctr = new ClientCtr();
             ctr.openSocket();
             ctr.sendStudent(s);
@@ -161,7 +172,7 @@ public class StudentView extends javax.swing.JFrame implements ActionListener{
             ctr.closeConnection();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(rootPane, "Failed!");
-            e.printStackTrace();
+            ex.printStackTrace();
         }
     }
     
