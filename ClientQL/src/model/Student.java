@@ -16,17 +16,17 @@ public class Student implements Serializable{
     private int id;
     private String name;
     private String address;
-    private int year;
+    
     private Date dob;
 
     public Student() {
     }
 
-    public Student(int id, String name, String address, int year, Date dob) {
+    public Student(int id, String name, String address, Date dob) {
         this.id = id;
         this.name = name;
         this.address = address;
-        this.year = year;
+        
         this.dob = dob;
     }
 
@@ -54,14 +54,7 @@ public class Student implements Serializable{
         this.address = address;
     }
 
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
+ 
     public Date getDob() {
         return dob;
     }
