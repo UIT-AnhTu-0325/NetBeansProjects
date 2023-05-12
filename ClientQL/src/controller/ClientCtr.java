@@ -28,8 +28,6 @@ public class ClientCtr {
         }
     }
     
-   
-    
     public String getResult(){
         String res = "";
         try {
@@ -45,6 +43,15 @@ public class ClientCtr {
         try {
             mySocket.close();
         } catch (Exception e) {
+        }
+    }
+    
+    public void sendStudent(Student s){
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(mySocket.getOutputStream());
+            oos.writeObject(s);//gui student sang ben server
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

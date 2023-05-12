@@ -11,7 +11,7 @@ package view;
 public class Main {
     
     public static void main(String[] args) {
-        new Student().setVisible(true);
+        new StudentView().setVisible(true);
     }
 
 }
