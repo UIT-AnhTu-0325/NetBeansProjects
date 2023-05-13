@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
-import { TextField, FormControl, Button } from "@mui/material";
+import { TextField, Button } from "@mui/material";
 
 const baseURLGetALL = "http://localhost:8901/subjects";
 const baseURLAdd = "http://localhost:8901/subjects/store";
+const baseURLEdit = (mamh) => {
+  return `http://localhost:8901/subjects/${mamh}/update`;
+};
 
 export const ListSubject = () => {
   const [subjects, setSubjects] = useState([]);
@@ -12,9 +15,12 @@ export const ListSubject = () => {
   const [name, setName] = useState("");
   const [nums, setNums] = useState(0);
 
+  const [selectedId, setSelectedId] = useState();
+  const [formType, setFormType] = useState("Add");
+
   const columns = [
     { field: "MaMH", headerName: "Mã môn học", width: 130 },
-    { field: "TenMH", headerName: "Tên môn học", width: 130 },
+    { field: "TenMH", headerName: "Tên môn học", width: 300 },
     { field: "STC", headerName: "Số tín chỉ", width: 70 },
   ];
 
@@ -22,7 +28,7 @@ export const ListSubject = () => {
     axios.get(baseURLGetALL).then((response) => {
       const datas = response.data.subjects;
       const res = datas.map((x) => {
-        return { ...x, id: datas.indexOf(x)};
+        return { ...x, id: datas.indexOf(x) };
       });
       setSubjects(res);
     });
@@ -34,34 +40,63 @@ export const ListSubject = () => {
       TenMH: name,
       STC: nums,
     };
-    axios.post(baseURLAdd, newSubject).then(() => {
-      let maxId = 0;
-      subjects.forEach((item) => {
-        maxId = Math.max(item.MaMH, maxId);
+    if (formType === "Add") {
+      axios.post(baseURLAdd, newSubject).then(() => {
+        let maxId = 0;
+        subjects.forEach((item) => {
+          maxId = Math.max(item.MaMH, maxId);
+        });
+        console.log(maxId);
+        maxId = maxId + 1;
+        let newDatas = [
+          ...subjects,
+          {
+            MaMH: maxId,
+            TenMH: newSubject.TenMH,
+            STC: newSubject.STC,
+            id: maxId,
+          },
+        ];
+        setSubjects(newDatas);
       });
-      console.log(maxId)
-      maxId = maxId + 1;
-      let newDatas = [
-        ...subjects,
-        {
-          MaMH: maxId,
-          TenMH: newSubject.TenMH,
-          STC: newSubject.STC,
-          id: maxId,
-        },
-      ];
-      setSubjects(newDatas);
-    });
+    } else {
+      const editedSubject = subjects.find((x) => x.id === selectedId);
+      axios.put(baseURLEdit(editedSubject.MaMH), newSubject).then(() => {
+        let newDatas = [...subjects]
+        newDatas = newDatas.map(x => {
+          if(x.id === editedSubject.id){
+            let newData = x;
+            newData.TenMH = newSubject.TenMH
+            newData.STC = newSubject.STC
+            return newData; 
+          }
+          return x;
+        })
+        setSubjects(newDatas);
+      });
+    }
   };
 
   const handleAddSubject = () => {
     setName("");
     setNums(0);
+    setFormType("Add");
+  };
+
+  const handleEditSubject = () => {
+    const editedSubject = subjects.find((x) => x.id === selectedId);
+    setName(editedSubject.TenMH);
+    setNums(editedSubject.STC);
+    setFormType("Edit");
   };
 
   const handleRowClick = (e) => {
-    console.log(e);
+    setSelectedId(e.row.id);
   };
+
+  const handleDeleteSubject = () => {
+
+  }
 
   if (!subjects || subjects.length === 0) return <div>Loading...</div>;
   return (
@@ -99,10 +134,11 @@ export const ListSubject = () => {
               color="secondary"
               type="submit"
               style={{ marginRight: 20 }}
+              onClick={handleEditSubject}
             >
               Sứa
             </Button>
-            <Button variant="outlined" color="secondary" type="submit">
+            <Button variant="outlined" color="secondary" type="submit" onClick={handleDeleteSubject}>
               Xóa
             </Button>
           </div>
