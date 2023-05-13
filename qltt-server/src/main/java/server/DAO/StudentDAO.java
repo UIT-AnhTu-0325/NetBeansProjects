@@ -90,16 +90,24 @@ public class StudentDAO {
             e.printStackTrace();
             return false;
         }
+            
     }
 
-    public void updateStudent(Student student) throws SQLException {
+    public boolean updateStudent(Student student) throws SQLException {
         String sql = "UPDATE student SET TenSV = ?, QueQuan = ?, NgaySinh = ? WHERE MaSV = ?";
-        PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setInt(1, student.getMaSV());
-        statement.setString(2, student.getTenSV());
-        statement.setString(3, student.getQueQuan());
-        statement.setDate(4, new Date(student.getNgaySinh().getTime())); //ps.setDate(3, new Date(s.getDob().getTime()));
-        statement.executeUpdate();
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, student.getMaSV());
+            statement.setString(2, student.getTenSV());
+            statement.setString(3, student.getQueQuan());
+            statement.setDate(4, new Date(student.getNgaySinh().getTime())); //ps.setDate(3, new Date(s.getDob().getTime()));
+            statement.executeUpdate();
+            return true;
+        }catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+            
     }
 
     public void deleteStudent(int MaSV) throws SQLException {
