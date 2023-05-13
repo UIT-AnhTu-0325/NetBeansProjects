@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.StudentGrade;
 import model.Subject;
 
 /**
@@ -51,17 +52,24 @@ public class SubjectDAO {
         return subjects;
     }
 
-    public Subject getSubjectById(int MaMH) throws SQLException {
-        String sql = "SELECT * FROM subjects WHERE MaMH = ?";
+    public List<StudentGrade> getSubjectById(int MaMH) throws SQLException {
+        List<StudentGrade> studentGrades = new ArrayList<>();
+        String sql = "SELECT * FROM studentgrade WHERE MAMH = ?";
+        System.out.println(sql);
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setInt(1, MaMH);
         ResultSet result = statement.executeQuery();
-        if (result.next()) {
-            Subject subject = new Subject(result.getInt("MaMH"), result.getString("TenMH"), result.getString("STC"));
-            return subject;
-        } else {
-            return null;
+        while (result.next()) {
+            StudentGrade grade = new StudentGrade();
+            grade.setMAMH(result.getInt("MaMH"));
+            grade.setMASV(result.getInt("MASV"));
+            grade.setDIEMCC(result.getDouble("DIEMCC"));
+            grade.setDIEMBTL(result.getDouble("DIEMBTL"));
+            grade.setDIEMCK(result.getDouble("DIEMCK"));
+            grade.setTENSV(result.getString("TENSV"));
+            studentGrades.add(grade);
         }
+        return studentGrades;
     }
 
     public void addSubject(Subject subject) throws SQLException {
@@ -92,17 +100,6 @@ public class SubjectDAO {
     public List<Subject> getAllSubjects() throws SQLException {
         List<Subject> subjects = new ArrayList<>();
         String sql = "SELECT * FROM subjects";
-//        if (!"".equals(key)) {
-//            sql += " where title LIKE '%" + key + "%' or content LIKE '%" + key + "%'";
-//        }
-//        if (Maloai > 0) {
-//            if (!"".equals(key)) {
-//                sql += " and";
-//            } else {
-//                sql += " where";
-//            }
-//            sql += " MaSV = " + Maloai;
-//        }
         System.out.println(sql);
         PreparedStatement statement = connection.prepareStatement(sql);
         ResultSet result = statement.executeQuery();

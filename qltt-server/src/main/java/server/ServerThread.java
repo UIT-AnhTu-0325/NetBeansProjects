@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import server.DAO.SubjectDAO;
 import model.Subject;
 import model.Student;
+import model.StudentGrade;
 import server.DAO.StudentDAO;
 
 /*
@@ -136,8 +137,13 @@ public class ServerThread implements Runnable {
     
     private void getSubject(int MaMH) throws IOException {
         try {
-            Subject subject = SubjectDAO.getInstance(Controller.getInstance().getDBConnection()).getSubjectById(MaMH);
-            oos.writeObject(subject);
+            List<StudentGrade> list = null;
+            list = SubjectDAO.getInstance(Controller.getInstance().getDBConnection()).getSubjectById(MaMH);
+            StudentGrade[] studentGrades = null;
+            if (list != null) {
+                studentGrades = list.toArray(new StudentGrade[list.size()]);
+            }
+            oos.writeObject(studentGrades);
             oos.flush();
         } catch (Exception e) {
             System.err.println(e);

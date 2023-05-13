@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Subject;
 import com.google.gson.Gson;
+import model.StudentGrade;
 import spark.Request;
 import spark.Response;
 
@@ -87,15 +88,15 @@ public class SubjectController {
         fc.dos.writeUTF("subjects/" + MaMH);
         fc.dos.flush();
         
-        Subject subject = null;
+        StudentGrade[] studentGrades = null;
         try {
-            subject = (Subject) fc.ois.readObject();
+            studentGrades = (StudentGrade[]) fc.ois.readObject();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(SubjectController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         Map<String, Object> response = new HashMap<>();
-        response.put("subject", subject);
+        response.put("studentGrades", studentGrades);
         Gson gson = new Gson();
         String json = gson.toJson(response);
 
