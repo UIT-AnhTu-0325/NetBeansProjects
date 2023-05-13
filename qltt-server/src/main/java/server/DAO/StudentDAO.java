@@ -75,9 +75,9 @@ public class StudentDAO {
         }
     }
 
-    public void addStudent(Student student) throws SQLException {
+    public boolean addStudent(Student student) throws SQLException {
         String sql = "INSERT INTO student (MaSV, TenSV, QueQuan, NgaySinh) VALUES (?, ?, ?, ?)";
-//        try {
+        try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, student.getMaSV());
             statement.setString(2, student.getTenSV());
@@ -85,11 +85,11 @@ public class StudentDAO {
             statement.setDate(4, new Date(student.getNgaySinh().getTime()));
 
             statement.executeUpdate();
-//            return true; // thanh cong!
-//        catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//            return false;
+            return true; // thanh cong!
+        }catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public void updateStudent(Student student) throws SQLException {

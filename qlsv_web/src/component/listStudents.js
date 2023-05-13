@@ -25,8 +25,8 @@ export const ListStudent = () => {
   const columns = [
     { field: "MaSV", headerName: "Mã sinh viên", width: 130 },
     { field: "TenSV", headerName: "Tên sinh viên", width: 250 },
-    { field: "QueQuan", headerName: "Quê quán", width: 200 },
-    { field: "NgaySinh", headerName: "Ngày sinh", width: 100 },
+    { field: "QueQuan", headerName: "Quê quán", width: 170 },
+    { field: "NgaySinh", headerName: "Ngày sinh", width: 150 },
   ];
 
   useEffect(() => {
@@ -51,14 +51,14 @@ export const ListStudent = () => {
       axios.post(baseURLAdd, newStudent).then(() => {
         let maxId = 0;
         students.forEach((item) => {
-          maxId = Math.max(item.MaMH, maxId);
+          maxId = Math.max(item.MaSV, maxId);
         });
         console.log(maxId);
         maxId = maxId + 1;
         let newDatas = [
           ...students,
           {
-            MASV: maxId,
+            MaSV: maxId,
             TenSV: newStudent.TenSV,
             QueQuan: newStudent.QueQuan,
             NgaySinh: newStudent.NgaySinh,
@@ -97,7 +97,10 @@ export const ListStudent = () => {
     const editedSubject = students.find((x) => x.id === selectedId);
     setName(editedSubject.TenSV);
     setHome(editedSubject.QueQuan);
-    setDOB(editedSubject.NgaySinh);
+    let dob = new Date(editedSubject.NgaySinh)
+    const offset = dob.getTimezoneOffset()
+    dob = new Date(dob.getTime() - (offset*60*1000))
+    setDOB(dob.toISOString().split('T')[0]);
     setFormType("Edit");
   };
 
@@ -110,9 +113,9 @@ export const ListStudent = () => {
     if (
       window.confirm(`Are you sure to delete ${deleteStudent.TenSV}`) === true
     ) {
-      axios.delete(baseURLDelete(deleteStudent.MASV)).then(() => {
+      axios.delete(baseURLDelete(deleteStudent.MaSV)).then(() => {
         let newDatas = [...students];
-        newDatas = newDatas.filter((x) => x.MASV !== deleteStudent.MASV);
+        newDatas = newDatas.filter((x) => x.MaSV !== deleteStudent.MaSV);
         setStudents(newDatas);
       });
     } else {
