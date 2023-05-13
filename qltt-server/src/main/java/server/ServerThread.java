@@ -113,7 +113,7 @@ public class ServerThread implements Runnable {
                 
             } catch (Exception e) {
                 System.err.println(e);
-                //closeConnection();
+                closeConnection();
                 return;
             }
         }

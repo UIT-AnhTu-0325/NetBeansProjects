@@ -102,10 +102,12 @@ export const ListSubject = () => {
 
   const handleDeleteSubject = () => {
     const deleteSubject = subjects.find((x) => x.id === selectedId);
-    if (window.confirm(`Are you sure to delete ${deleteSubject.TenMH}`) === true) {
+    if (
+      window.confirm(`Are you sure to delete ${deleteSubject.TenMH}`) === true
+    ) {
       axios.delete(baseURLDelete(deleteSubject.MaMH)).then(() => {
         let newDatas = [...subjects];
-        newDatas = newDatas.filter(x => x.MaMH !== deleteSubject.MaMH)
+        newDatas = newDatas.filter((x) => x.MaMH !== deleteSubject.MaMH);
         setSubjects(newDatas);
       });
     } else {
@@ -115,8 +117,10 @@ export const ListSubject = () => {
 
   const handleStudentGrade = () => {
     const subject = subjects.find((x) => x.id === selectedId);
+    if(!subject) return;
+    localStorage.setItem("SubjectName", subject.TenMH);
     navigate(`/subjects/${subject.MaMH}`);
-  }
+  };
 
   if (!subjects || subjects.length === 0) return <div>Loading...</div>;
   return (

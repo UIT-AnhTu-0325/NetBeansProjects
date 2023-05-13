@@ -55,13 +55,15 @@ export const SubjectDetail = () => {
     axios.get(baseURLGet(id)).then((response) => {
       const datas = response.data.studentGrades;
       if (datas.length > 0) {
-        setSubjectName(datas[0].TENMH);
+        //setSubjectName(datas[0].TENMH);
       }
       const res = datas.map((x) => {
         return { ...x, id: datas.indexOf(x) };
       });
       setGrades(res);
     });
+
+    setSubjectName( localStorage.getItem("SubjectName"));
   }, [id]);
 
   useEffect(() => {
