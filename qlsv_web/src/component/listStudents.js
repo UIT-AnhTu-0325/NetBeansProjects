@@ -127,7 +127,7 @@ export const ListStudent = () => {
   return (
     <div>
       <div style={{ margin: 30 }}>
-        <h2>List subjects</h2>
+        <h2>List students</h2>
       </div>
       <div style={{ display: "flex" }}>
         <div style={{ width: 900, margin: 30 }}>
