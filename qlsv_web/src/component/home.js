@@ -1,3 +1,4 @@
+import "./home.css";
 export const Home = () => {
-    return <div>Quan ly sinh vien</div>
-}
+  return <div className="home">Quan ly sinh vien</div>;
+};

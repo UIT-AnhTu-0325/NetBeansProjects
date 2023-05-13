@@ -1,0 +1,34 @@
+.nav {
+  margin-top: 20px;
+  padding: 10px 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.nav__logo {
+  font-size: 18px;
+  cursor: pointer;
+}
+.nav__logo:active {
+  opacity: 0.8;
+}
+.nav__list {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+.nav__list a {
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 5px;
+}
+.nav__list li {
+  list-style-type: none;
+}
+.nav__list a:hover {
+  background: #39ade7;
+  color: white;
+}
+.nav__list a:active {
+  opacity: 0.8;
+}
