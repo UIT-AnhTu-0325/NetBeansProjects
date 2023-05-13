@@ -10,6 +10,9 @@ export const Layout = () => {
           <li>
             <Link to="/subjects">Subjects</Link>
           </li>
+          <li>
+            <Link to="/students">Students</Link>
+          </li>
         </ul>
       </nav>
 
