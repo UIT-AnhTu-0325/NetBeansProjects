@@ -54,7 +54,7 @@ public class Student implements Serializable {
         this.NgaySinh = NgaySinh;
     }
 
-    public Student(int MaSV, String TenSV, String QueQuan, Date dob) {
+    public Student(int MaSV, String TenSV, String QueQuan, Date NgaySinh) {
         this.MaSV = MaSV;
         this.TenSV = TenSV;
         this.QueQuan = QueQuan;
