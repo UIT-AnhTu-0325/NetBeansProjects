@@ -8,6 +8,9 @@ const baseURLAdd = "http://localhost:8901/subjects/store";
 const baseURLEdit = (mamh) => {
   return `http://localhost:8901/subjects/${mamh}/update`;
 };
+const baseURLDelete = (mamh) => {
+  return `http://localhost:8901/subjects/${mamh}/delete`;
+};
 
 export const ListSubject = () => {
   const [subjects, setSubjects] = useState([]);
@@ -62,16 +65,16 @@ export const ListSubject = () => {
     } else {
       const editedSubject = subjects.find((x) => x.id === selectedId);
       axios.put(baseURLEdit(editedSubject.MaMH), newSubject).then(() => {
-        let newDatas = [...subjects]
-        newDatas = newDatas.map(x => {
-          if(x.id === editedSubject.id){
+        let newDatas = [...subjects];
+        newDatas = newDatas.map((x) => {
+          if (x.id === editedSubject.id) {
             let newData = x;
-            newData.TenMH = newSubject.TenMH
-            newData.STC = newSubject.STC
-            return newData; 
+            newData.TenMH = newSubject.TenMH;
+            newData.STC = newSubject.STC;
+            return newData;
           }
           return x;
-        })
+        });
         setSubjects(newDatas);
       });
     }
@@ -95,8 +98,18 @@ export const ListSubject = () => {
   };
 
   const handleDeleteSubject = () => {
+    const deleteSubject = subjects.find((x) => x.id === selectedId);
+    if (window.confirm(`Are you sure to delete ${deleteSubject.TenMH}`) === true) {
+      axios.delete(baseURLDelete(deleteSubject.MaMH)).then(() => {
+        let newDatas = [...subjects];
+        newDatas = newDatas.filter(x => x.MaMH !== deleteSubject.MaMH)
+        setSubjects(newDatas);
+      });
+    } else {
+      //Anything
+    }
 
-  }
+  };
 
   if (!subjects || subjects.length === 0) return <div>Loading...</div>;
   return (
@@ -138,7 +151,12 @@ export const ListSubject = () => {
             >
               Sứa
             </Button>
-            <Button variant="outlined" color="secondary" type="submit" onClick={handleDeleteSubject}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              type="submit"
+              onClick={handleDeleteSubject}
+            >
               Xóa
             </Button>
           </div>
