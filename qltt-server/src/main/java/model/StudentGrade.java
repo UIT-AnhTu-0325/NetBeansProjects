@@ -21,6 +21,15 @@ public class StudentGrade implements Serializable {
     private double DIEMBTL ;
     private double DIEMCK ;
     private String TENSV;
+    private String TENMH;
+
+    public String getTENMH() {
+        return TENMH;
+    }
+
+    public void setTENMH(String TENMH) {
+        this.TENMH = TENMH;
+    }
 
     public void setTENSV(String TENSV) {
         this.TENSV = TENSV;

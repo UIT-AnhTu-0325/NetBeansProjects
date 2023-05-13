@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { TextField, Button } from "@mui/material";
 
@@ -21,10 +22,12 @@ export const ListSubject = () => {
   const [selectedId, setSelectedId] = useState();
   const [formType, setFormType] = useState("Add");
 
+  const navigate = useNavigate();
+
   const columns = [
     { field: "MaMH", headerName: "Mã môn học", width: 130 },
     { field: "TenMH", headerName: "Tên môn học", width: 300 },
-    { field: "STC", headerName: "Số tín chỉ", width: 70 },
+    { field: "STC", headerName: "Số tín chỉ", width: 150 },
   ];
 
   useEffect(() => {
@@ -108,8 +111,12 @@ export const ListSubject = () => {
     } else {
       //Anything
     }
-
   };
+
+  const handleStudentGrade = () => {
+    const subject = subjects.find((x) => x.id === selectedId);
+    navigate(`/subjects/${subject.MaMH}`);
+  }
 
   if (!subjects || subjects.length === 0) return <div>Loading...</div>;
   return (
@@ -155,9 +162,18 @@ export const ListSubject = () => {
               variant="outlined"
               color="secondary"
               type="submit"
+              style={{ marginRight: 30 }}
               onClick={handleDeleteSubject}
             >
               Xóa
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              type="submit"
+              onClick={handleStudentGrade}
+            >
+              Xem điểm
             </Button>
           </div>
 

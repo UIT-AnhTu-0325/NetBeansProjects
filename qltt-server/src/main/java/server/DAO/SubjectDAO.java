@@ -67,6 +67,7 @@ public class SubjectDAO {
             grade.setDIEMBTL(result.getDouble("DIEMBTL"));
             grade.setDIEMCK(result.getDouble("DIEMCK"));
             grade.setTENSV(result.getString("TENSV"));
+            grade.setTENMH(result.getString("TENMH"));
             studentGrades.add(grade);
         }
         return studentGrades;
