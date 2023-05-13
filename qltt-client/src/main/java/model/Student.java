@@ -26,10 +26,34 @@ public class Student implements Serializable {
     public Student() {
     }
 
-    public Student(int MaSV, String TenSV, String QueQuan, Date dob) {
+    public Student(int MaSV, String TenSV, String QueQuan, Date NgaySinh) {
         this.MaSV = MaSV;
         this.TenSV = TenSV;
         this.QueQuan = QueQuan;
+        this.NgaySinh = NgaySinh;
+    }
+
+    public String getTenSV() {
+        return TenSV;
+    }
+
+    public void setTenSV(String TenSV) {
+        this.TenSV = TenSV;
+    }
+
+    public String getQueQuan() {
+        return QueQuan;
+    }
+
+    public void setQueQuan(String QueQuan) {
+        this.QueQuan = QueQuan;
+    }
+
+    public Date getNgaySinh() {
+        return NgaySinh;
+    }
+
+    public void setNgaySinh(Date NgaySinh) {
         this.NgaySinh = NgaySinh;
     }
 
@@ -37,7 +61,7 @@ public class Student implements Serializable {
 
     @Override
     public String toString() {
-        return "News{" + "MaSV=" + MaSV + ", TenSV=" + TenSV + ", QueQuan=" + QueQuan + ", NgaySinh=" + NgaySinh + '}';
+        return "News{" + "MaSV=" + MaSV + ", TenSV=" + TenSV + ", QueQuan=" + QueQuan + ", NgaySinh=" + NgaySinh +'}';
     }
 
     public void setMaSV(int MaSV) {

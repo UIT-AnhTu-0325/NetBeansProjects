@@ -123,7 +123,7 @@ public class ServerThread implements Runnable {
     }
     
     
-    private void getListSubjects() throws IOException {
+    private void getListSubjects() throws IOException, SQLException {
         List<Subject> list = null;
         list = SubjectDAO.getInstance(Controller.getInstance().getDBConnection()).getAllSubjects();
         Subject[] subjects = null;
