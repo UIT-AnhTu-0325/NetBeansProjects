@@ -180,4 +180,52 @@ public class SubjectController {
         // Return the JSON string as the response body
         return json;
     }
+    
+    public static String saveGrade(spark.Request req, spark.Response res) throws IOException {
+        SubjectController fc = getInstance();
+        String body = req.body();
+        StudentGrade grade = new Gson().fromJson(body, StudentGrade.class);
+        
+        fc.dos.writeUTF("subjects/gradestore");
+        fc.dos.flush();
+        fc.oos.writeObject(grade);
+        fc.oos.flush();
+        
+        String status = (String) fc.dis.readUTF();
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", status);
+        Gson gson = new Gson();
+        String json = gson.toJson(response);
+
+        // Set the response type to "application/json"
+        res.type("application/json");
+
+        // Return the JSON string as the response body
+        return json;
+    }
+    
+        public static String deleteGrade(spark.Request req, spark.Response res) throws IOException {
+        SubjectController fc = getInstance();
+        String body = req.body();
+        StudentGrade grade = new Gson().fromJson(body, StudentGrade.class);
+        
+        fc.dos.writeUTF("subjects/gradedelete");
+        fc.dos.flush();
+        fc.oos.writeObject(grade);
+        fc.oos.flush();
+        
+        String status = (String) fc.dis.readUTF();
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", status);
+        Gson gson = new Gson();
+        String json = gson.toJson(response);
+
+        // Set the response type to "application/json"
+        res.type("application/json");
+
+        // Return the JSON string as the response body
+        return json;
+    }
 }

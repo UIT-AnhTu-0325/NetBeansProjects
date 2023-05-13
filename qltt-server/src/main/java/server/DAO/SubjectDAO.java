@@ -81,6 +81,29 @@ public class SubjectDAO {
         statement.setString(3, subject.getSTC());
         statement.executeUpdate();
     }
+    
+    public void addGrade(StudentGrade grade) throws SQLException {
+        String sql = "INSERT INTO studentgrade (MaMH, MASV,TENMH, TENSV, DIEMCK, DIEMBTL, DIEMCC) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, grade.getMAMH());
+        statement.setInt(2, grade.getMASV());
+        statement.setString(3, grade.getTENMH());
+        statement.setString(4, grade.getTENSV());
+        statement.setDouble(5, grade.getDIEMCK());
+        statement.setDouble(6, grade.getDIEMBTL());
+        statement.setDouble(7, grade.getDIEMCC());
+        
+        statement.executeUpdate();
+    }
+    
+    public void deleteGrade(StudentGrade grade) throws SQLException {
+        String sql = "DELETE FROM studentgrade WHERE MaMH = ? AND MASV = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, grade.getMAMH());
+        statement.setInt(2, grade.getMASV());
+        
+        statement.executeUpdate();
+    }
 
     public void updateSubject(Subject subject) throws SQLException {
         String sql = "UPDATE subjects SET TenMH = ?, STC = ? WHERE MaMH = ?";

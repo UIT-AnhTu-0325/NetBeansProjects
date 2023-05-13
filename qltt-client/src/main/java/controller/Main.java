@@ -54,19 +54,22 @@ public class Main {
         post("/subjects/store", SubjectController::saveSubject);
         put("/subjects/:subject/update", SubjectController::updateSubject);
         delete("/subjects/:subject/delete", SubjectController::deleteSubject);
+        post("/subjects/addGrade", SubjectController::saveGrade);
+        post("/subjects/deleteGrade", SubjectController::deleteGrade);
         
         get("/students", StudentController::getList);
         get("/students/:student", StudentController::getStudent);
         post("/students/store", StudentController::saveStudent);
         put("/students/:student/update", StudentController::updateStudent);
         delete("/students/:student/delete", StudentController::deleteStudent);
+        
     }
 }
 
 class MyObject {
     private String message;
-
     public String getMessage() {
+
         return message;
     }
 

@@ -54,6 +54,13 @@ public class ServerThread implements Runnable {
                     
                     Subject subject = (Subject) ois.readObject();
                     saveSubject(subject);
+                }else if (message.contains("subjects/gradestore")){
+                    
+                    StudentGrade grade = (StudentGrade) ois.readObject();
+                    saveGrade(grade);
+                }else if (message.contains("subjects/gradedelete")){
+                    StudentGrade grade = (StudentGrade) ois.readObject();
+                    deleteGrade(grade);
                 } else if (message.contains("subjects/update")) {
                     
                     Subject subject = (Subject) ois.readObject();
@@ -106,7 +113,7 @@ public class ServerThread implements Runnable {
                 
             } catch (Exception e) {
                 System.err.println(e);
-                closeConnection();
+                //closeConnection();
                 return;
             }
         }
@@ -155,6 +162,30 @@ public class ServerThread implements Runnable {
     private void saveSubject(Subject subject) throws IOException, SQLException {
         try {
             SubjectDAO.getInstance(Controller.getInstance().getDBConnection()).addSubject(subject);
+            dos.writeUTF("success!");
+            dos.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex);
+            dos.writeUTF(ex.toString());
+            dos.flush();
+        }
+    }
+    
+    private void saveGrade(StudentGrade grade) throws IOException, SQLException {
+        try {
+            SubjectDAO.getInstance(Controller.getInstance().getDBConnection()).addGrade(grade);
+            dos.writeUTF("success!");
+            dos.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex);
+            dos.writeUTF(ex.toString());
+            dos.flush();
+        }
+    }
+    
+    private void deleteGrade(StudentGrade grade) throws IOException, SQLException {
+        try {
+            SubjectDAO.getInstance(Controller.getInstance().getDBConnection()).deleteGrade(grade);
             dos.writeUTF("success!");
             dos.flush();
         } catch (IOException ex) {
