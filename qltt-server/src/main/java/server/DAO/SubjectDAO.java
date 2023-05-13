@@ -51,7 +51,18 @@ public class SubjectDAO {
         }
         return subjects;
     }
-
+    public List<Subject> getSubjectName() throws SQLException {
+        List<Subject> subjects = new ArrayList<>();
+        String sql = "SELECT * FROM subjects where MaMH = ?";
+        System.out.println(sql);
+        PreparedStatement statement = connection.prepareStatement(sql);
+        ResultSet result = statement.executeQuery();
+        while (result.next()) {
+            Subject subject = new Subject(result.getInt("MaMH"), result.getString("TenMH"),result.getString("STC"));
+            subjects.add(subject);
+        }
+        return subjects;
+    }
     public List<StudentGrade> getSubjectById(int MaMH) throws SQLException {
         List<StudentGrade> studentGrades = new ArrayList<>();
         String sql = "SELECT * FROM studentgrade WHERE MAMH = ?";

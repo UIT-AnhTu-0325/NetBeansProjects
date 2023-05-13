@@ -82,6 +82,30 @@ public class SubjectController {
         return json;
     }
     
+    public static String getSubjectName(spark.Request req, spark.Response res) throws IOException {
+        SubjectController fc = getInstance();
+        String MaMH = req.params("subject");
+        fc.dos.writeUTF("subjects/" + MaMH);
+        fc.dos.flush();
+        
+        StudentGrade[] studentGrades = null;
+        try {
+            studentGrades = (StudentGrade[]) fc.ois.readObject();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SubjectController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("studentGrades", studentGrades);
+        Gson gson = new Gson();
+        String json = gson.toJson(response);
+
+        // Set the response type to "application/json"
+        res.type("application/json");
+
+        // Return the JSON string as the response body
+        return json;
+    }
     public static String getSubject(spark.Request req, spark.Response res) throws IOException {
         SubjectController fc = getInstance();
         String MaMH = req.params("subject");

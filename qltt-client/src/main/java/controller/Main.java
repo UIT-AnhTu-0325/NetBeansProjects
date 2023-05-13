@@ -60,6 +60,8 @@ public class Main {
         post("/students/store", StudentController::saveStudent);
         put("/students/:student/update", StudentController::updateStudent);
         delete("/students/:student/delete", StudentController::deleteStudent);
+        
+        get("/subjects/:subject",SubjectController::getSubjectName);
     }
 }
 

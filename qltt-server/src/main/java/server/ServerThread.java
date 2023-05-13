@@ -134,6 +134,16 @@ public class ServerThread implements Runnable {
         oos.writeObject(subjects);
         oos.flush();
     }
+    private void getSubjectName() throws IOException, SQLException {
+        List<Subject> list = null;
+        list = SubjectDAO.getInstance(Controller.getInstance().getDBConnection()).getSubjectName();
+        Subject[] subjects = null;
+        if (list != null) {
+            subjects = list.toArray(new Subject[list.size()]);
+        }
+        oos.writeObject(subjects);
+        oos.flush();
+    }
     
     private void getSubject(int MaMH) throws IOException {
         try {
